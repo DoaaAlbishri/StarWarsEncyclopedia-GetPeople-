@@ -10,7 +10,7 @@ import UIKit
 class PeopleViewController: UITableViewController {
 
     // Hardcoded data for now
-       var people = ["Luke Skywalker", "Leia Organa", "Han Solo", "C-3PO", "R2-D2"]
+       var people = [String]()
       
     override func viewDidLoad() {
             super.viewDidLoad()
@@ -32,13 +32,14 @@ class PeopleViewController: UITableViewController {
                         if let results = jsonResult["results"] {
                         // coercing the results object as an NSArray and then storing that in resultsArray
                             let resultsArray = results as! NSArray
-                            
-                            // now we can run NSArray methods like count and firstObject
-                            print(resultsArray.count)
-                            print(resultsArray[0])
-                            print(resultsArray.firstObject)
+                            for person in resultsArray{
+                                let personDict = person as! NSDictionary
+                                self.people.append(personDict["name"]! as! String)
+                                
+                            }
                         }
                     }
+                    self.tableView.reloadData()
                 }catch {
                     print(error)
                 }
